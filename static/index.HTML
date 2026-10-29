@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071225">
+  <title>EmotiSense | AI Emotion Detection</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="EmotiSense Home">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-copy">Emoti<span>Sense</span>
+        <small>AI Emotion Detection</small>
+      </span>
+    </a>
+
+    <nav class="top-nav">
+      <a class="nav-item active" href="#home">⌂ <span>Home</span></a>
+      <a class="nav-item" href="#about">ⓘ <span>About</span></a>
+      <a class="nav-item" href="/docs" target="_blank">‹/› <span>API Docs</span></a>
+      <button class="theme-toggle" id="themeToggle" type="button">☾</button>
+    </nav>
+  </header>
+
+  <div class="layout" id="home">
+    <aside class="sidebar">
+      <a class="side-link active" href="#home"><span>⌂</span> Home</a>
+      <a class="side-link" href="#try-it"><span>✧</span> Try It Out</a>
+      <a class="side-link" href="/docs" target="_blank"><span>‹/›</span> API Docs</a>
+      <a class="side-link" href="#about"><span>ⓘ</span> About</a>
+
+      <div class="side-quote">
+        “Better understanding<br>
+        leads to better<br>
+        connections.”
+        <div class="quote-wave">〰〰〰</div>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Turn words into emotions</div>
+          <h1>
+            Emotion Detection<br>
+            <span class="gradient-text">Powered by Deep Learning</span>
+          </h1>
+          <p>
+            Enter a text and discover the emotion behind it.
+            Our AI model analyzes the sentence and predicts the
+            underlying emotion.
+          </p>
+          <div class="pills">
+            <span class="pill">ϟ &nbsp; Fast</span>
+            <span class="pill">◎ &nbsp; AI Powered</span>
+            <span class="pill">▦ &nbsp; Deep Learning</span>
+          </div>
+        </div>
+
+        <div class="brain-art" aria-hidden="true">
+          <div class="orbit"></div>
+          <span class="float-emoji e1">😊</span>
+          <span class="float-emoji e2">😢</span>
+          <span class="float-emoji e3">😍</span>
+          <span class="float-emoji e4">😮</span>
+          <div class="brain">🧠</div>
+          <div class="art-caption">
+            Your Words.<br>Our AI.<br>
+            <strong>Real Emotions.</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-grid" id="try-it">
+        <div class="left-column">
+          <section class="panel input-panel">
+            <div class="panel-head">
+              <div class="head-icon">▤</div>
+              <div>
+                <h2>Enter Your Text</h2>
+                <div class="sub">Type or paste the text you want to analyze</div>
+              </div>
+            </div>
+
+            <div class="text-wrap">
+              <textarea id="inputText" maxlength="2000"
+                placeholder="e.g. I am feeling very happy today!"
+                aria-label="Text to analyze"></textarea>
+              <span class="counter"><span id="charCount">0</span>/2000</span>
+            </div>
+
+            <div class="quick">
+              <span class="quick-label">💡 Quick examples</span>
+              <button class="chip" data-example="I am so happy and excited about my future!">Joy</button>
+              <button class="chip" data-example="I feel lonely and sad today.">Sadness</button>
+              <button class="chip" data-example="I am really angry about what happened.">Anger</button>
+              <button class="chip" data-example="I am scared and worried about tomorrow.">Fear</button>
+              <button class="chip" data-example="I love spending time with my family.">Love</button>
+              <button class="chip" data-example="Wow, I never expected that amazing surprise!">Surprise</button>
+            </div>
+
+            <button class="primary" id="predictBtn" type="button">
+              <span class="sparkle">✧</span> Detect Emotion
+              <span class="arrow">→</span>
+            </button>
+
+            <p class="hint">
+              Your text is sent to your local FastAPI model for prediction.
+              Maximum 2,000 characters.
+            </p>
+            <div class="error-message" id="errorMessage" role="alert"></div>
+          </section>
+
+          <section class="panel emotions-panel">
+            <h3>Emotions We Detect</h3>
+            <div class="emotion-list">
+              <div class="emotion-tile"><span>😄</span><b class="joy-color">Joy</b></div>
+              <div class="emotion-tile"><span>😢</span><b class="sadness-color">Sadness</b></div>
+              <div class="emotion-tile"><span>😠</span><b class="anger-color">Anger</b></div>
+              <div class="emotion-tile"><span>😨</span><b class="fear-color">Fear</b></div>
+              <div class="emotion-tile"><span>❤️</span><b class="love-color">Love</b></div>
+              <div class="emotion-tile"><span>😲</span><b class="surprise-color">Surprise</b></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel result-panel" aria-live="polite">
+          <div class="panel-head">
+            <div class="head-icon teal-icon">✧</div>
+            <div>
+              <h2>Analysis Result</h2>
+              <div class="sub" id="resultSubtitle">Your emotion prediction will appear here</div>
+            </div>
+          </div>
+
+          <div class="result-placeholder" id="resultPlaceholder">
+            <div class="placeholder-icon">✨</div>
+            <strong>Ready to understand the feeling?</strong>
+            <span>
+              Enter a sentence and click <b>Detect Emotion</b>
+              to see your model's prediction.
+            </span>
+          </div>
+
+          <div class="result-content" id="resultContent">
+            <div class="emotion-main">
+              <div class="emotion-orb" id="emotionEmoji">😊</div>
+              <div class="emotion-name" id="emotionName">Joy</div>
+              <div class="confidence">
+                Confidence: <strong id="confidenceValue">0%</strong>
+              </div>
+            </div>
+
+            <div class="section-label"><span>▥</span> Emotion Probabilities</div>
+            <div class="probability-list" id="probabilityList"></div>
+
+            <div class="analyzed-text">
+              <span>Analyzed text</span>
+              <p id="analyzedText"></p>
+            </div>
+          </div>
+
+          <div class="loading-state" id="loadingState">
+            <div class="loader"></div>
+            <span>Analyzing emotion with AI…</span>
+          </div>
+        </section>
+      </section>
+
+      <section class="about-strip" id="about">
+        <div>
+          <span class="about-icon">⚡</span>
+          <strong>Fast predictions</strong>
+          <small>Powered by your local API</small>
+        </div>
+        <div>
+          <span class="about-icon">🧠</span>
+          <strong>BiGRU deep learning</strong>
+          <small>Trained emotion classifier</small>
+        </div>
+        <div>
+          <span class="about-icon">🔒</span>
+          <strong>Local project</strong>
+          <small>Requests go to your own server</small>
+        </div>
+      </section>
+
+      <footer>
+        <span>Built with ❤️ using <b>FastAPI</b> · <b>TensorFlow</b> · <b>Python</b></span>
+        <span>Understand emotions • Build kinder connections 💜</span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
